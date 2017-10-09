@@ -273,11 +273,11 @@ public class MeshAssetRuleInspector : Editor
 
     private static bool changed = false;
 
-    private bool m_SecondaryUVAdvancedOptions = false;
+    //private bool m_SecondaryUVAdvancedOptions = false;
 
     private bool m_MeshFold = false;
 
-    private bool m_ShowAllMaterialNameOptions = true;
+    //private bool m_ShowAllMaterialNameOptions = true;
 
     private static Styles styles;
 
@@ -324,6 +324,7 @@ public class MeshAssetRuleInspector : Editor
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("MeshImportRules");
         EditorGUILayout.EndHorizontal();
+        
 
         DrawMeshSettings(t);
 
@@ -492,7 +493,25 @@ public class MeshAssetRuleInspector : Editor
     private void NormalsAndTangentsGUI(MeshAssetRule rule)
     {
         GUILayout.Label(styles.TangentSpace, EditorStyles.boldLabel, new GUILayoutOption[0]);
+
+        EditorGUI.BeginChangeCheck();
         rule.normalImportMode = (ModelImporterNormals)EditorGUILayout.EnumPopup(styles.TangentSpaceNormalLabel, rule.normalImportMode);
+        if (EditorGUI.EndChangeCheck())
+        {
+            if (rule.normalImportMode == ModelImporterNormals.None)
+            {
+                rule.tangentImportMode = ModelImporterTangents.None;
+            }
+            else if (rule.normalImportMode == ModelImporterNormals.Import)
+            {
+                rule.tangentImportMode = ModelImporterTangents.Import;
+            }
+            else
+            {
+                rule.tangentImportMode = ModelImporterTangents.CalculateMikk;
+            }
+        }
+
         using (new EditorGUI.DisabledScope(rule.normalImportMode != ModelImporterNormals.Calculate))
         {
             rule.normalSmoothAngle = EditorGUILayout.Slider(styles.SmoothingAngle, rule.normalSmoothAngle, 0f, 180f);
