@@ -5,12 +5,12 @@ using UnityEngine;
 // TODO compile to dll
 public class AssetImportCop : AssetPostprocessor
 {
-    T FindRuleForMeshAsset<T>(string path, string assetFilter) where T : Object
+    static T FindRuleForMeshAsset<T>(string path, string assetFilter) where T : Object
     {
         return SearchRecursive<T>(path, assetFilter);
     }
 
-    private T SearchRecursive<T>(string path,string assetFilter) where  T: Object
+    private static T SearchRecursive<T>(string path, string assetFilter) where T : Object
     {
         foreach (string findAsset in AssetDatabase.FindAssets(assetFilter, new[] { Path.GetDirectoryName(path) }))
         {
@@ -36,9 +36,9 @@ public class AssetImportCop : AssetPostprocessor
         return null;
     }
 
-    private void OnPreprocessModel()
+    private static void ExcuteMeshRule(AssetImporter importer)
     {
-        MeshAssetRule rule = FindRuleForMeshAsset<MeshAssetRule>(assetImporter.assetPath, "t:MeshAssetRule");
+        MeshAssetRule rule = FindRuleForMeshAsset<MeshAssetRule>(importer.assetPath, "t:MeshAssetRule");
         if (rule == null)
         {
             Debug.Log("No asset rules found for asset");
@@ -46,22 +46,34 @@ public class AssetImportCop : AssetPostprocessor
         else
         {
             Debug.Log("Begin to Applay Mesh Settings");
-            rule.ApplyMeshSettings(assetImporter);
+            rule.ApplyMeshSettings(importer);
+        }
+    }
+
+    private void OnPreprocessModel()
+    {
+        ExcuteMeshRule(assetImporter);
+        
+    }
+
+    private static void ExcuteTextureRule(AssetImporter importer)
+    {
+        TextureAssetRule rule = FindRuleForMeshAsset<TextureAssetRule>(importer.assetPath, "t:TextureAssetRule");
+        if (rule == null)
+        {
+            Debug.Log("No asset rules found for asset");
+        }
+        else
+        {
+            Debug.Log("Begin to Applay Mesh Settings");
+            rule.ApplySettings(importer);
         }
     }
 
     private void OnPreprocessTexture()
     {
-        TextureAssetRule rule = FindRuleForMeshAsset<TextureAssetRule>(assetImporter.assetPath, "t:TextureAssetRule");
-        if (rule == null)
-        {
-            Debug.Log("No asset rules found for asset");
-        }
-        else
-        {
-            Debug.Log("Begin to Applay Mesh Settings");
-            rule.ApplySettings(assetImporter);
-        }
+        ExcuteTextureRule(assetImporter);
+        
     }
 
     private void OnPreprocessAnimation()
@@ -72,5 +84,22 @@ public class AssetImportCop : AssetPostprocessor
     public void OnPreprocessAudio()
     {
         Debug.Log("no audio rules");
+    }
+
+
+    static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    {
+        for (int i = 0; i < movedAssets.Length; i++)
+        {
+            AssetImporter importer = AssetImporter.GetAtPath(movedAssets[i]);
+
+            //model:
+            ExcuteMeshRule(importer);
+
+            //texture:
+            ExcuteTextureRule(importer);
+
+
+        }
     }
 }

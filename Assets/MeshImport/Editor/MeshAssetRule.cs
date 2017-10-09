@@ -66,7 +66,10 @@ public class MeshAssetRule : ScriptableObject
 
     public void ApplyMeshSettings(AssetImporter assetImporter)
     {
-        ApplyMeshSettings((ModelImporter)assetImporter);
+        ModelImporter importer = assetImporter as ModelImporter;
+
+        if (importer != null)
+            ApplyMeshSettings((ModelImporter) assetImporter);
     }
 
     void ApplyMeshSettings(ModelImporter importer)

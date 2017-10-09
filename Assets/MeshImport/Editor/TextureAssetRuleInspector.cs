@@ -153,7 +153,9 @@ public class TextureAssetRule : ScriptableObject
 
     public void ApplySettings(AssetImporter assetImporter)
     {
-        ApplyMeshSettings((TextureImporter)assetImporter);
+        TextureImporter importer = assetImporter as TextureImporter;
+        if (importer != null)
+            ApplyMeshSettings((TextureImporter)assetImporter);
     }
 
     private void ApplyMeshSettings(TextureImporter assetImporter)
