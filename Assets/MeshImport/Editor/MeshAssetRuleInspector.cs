@@ -305,7 +305,7 @@ public class MeshAssetRuleInspector : Editor
         }
 
         Debug.Log("selectionpath: " + selectionpath);
-        string newRuleFileName = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectionpath, "New Asset Rule.asset"));
+        string newRuleFileName = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectionpath, "New Mesh Rule.asset"));
         newRuleFileName = newRuleFileName.Replace("\\", "/");
         AssetDatabase.CreateAsset(newRule, newRuleFileName);
         AssetDatabase.SaveAssets();

@@ -17,7 +17,6 @@ public class AssetImportCop : AssetPostprocessor
             string p = Path.GetDirectoryName(AssetDatabase.GUIDToAssetPath(findAsset));
             if (p == Path.GetDirectoryName(path))
             {
-                Debug.Log("Found AssetRule for Asset Rule" + AssetDatabase.GUIDToAssetPath(findAsset));
                 {
                     return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(findAsset));
                 }
@@ -28,7 +27,7 @@ public class AssetImportCop : AssetPostprocessor
         path = path.Replace('\\','/');
         path = path.Remove(0, Application.dataPath.Length);
         path = path.Insert(0, "Assets");
-        Debug.Log("Searching: " + path);
+        //Debug.Log("Searching: " + path);
         if (path != "Assets")
             return SearchRecursive<T>(path, assetFilter);
 

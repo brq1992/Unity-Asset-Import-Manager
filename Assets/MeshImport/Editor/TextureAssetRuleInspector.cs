@@ -30,7 +30,7 @@ public class TextureAssetRuleInspector : Editor
         }
         Debug.Log("selectionpath: " + selectionpath);
 
-        string newRuleFileName = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectionpath, "New Asset Rule.asset"));
+        string newRuleFileName = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectionpath, "New Texture Rule.asset"));
         newRuleFileName = newRuleFileName.Replace("\\", "/");
         AssetDatabase.CreateAsset(newRule, newRuleFileName);
         AssetDatabase.SaveAssets();
