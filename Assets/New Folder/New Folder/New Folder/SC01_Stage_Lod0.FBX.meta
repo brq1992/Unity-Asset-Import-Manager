@@ -60,7 +60,7 @@ ModelImporter:
     normalSmoothAngle: 0
     normalImportMode: 1
     tangentImportMode: 1
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

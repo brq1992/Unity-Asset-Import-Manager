@@ -63,4 +63,13 @@ public class DDSMeshImportRule : ScriptableObject
     }
 
     ///todo:考虑模型是否支持切线
+    /// 
+    public bool IsMatch(AssetImporter importer)
+    {
+        if (importer is ModelImporter)
+        {
+            return true;
+        }
+        return false;
+    }
 }
