@@ -403,6 +403,7 @@ public class MeshAssetRuleInspector : Editor
 
         if (m_MeshFold)
         {
+            ModelPageGUI(assetRule);
             CommomUI(assetRule);
             NormalsAndTangentsGUI(assetRule);
             MaterialsGUI(assetRule);
@@ -440,6 +441,11 @@ public class MeshAssetRuleInspector : Editor
         //MaterialsGUI(assetRule);
 
 
+    }
+
+    private void ModelPageGUI(MeshAssetRule assetRule)
+    {
+        
     }
 
     private void CommomUI(MeshAssetRule assetRule)
